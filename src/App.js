@@ -1,26 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Router, Redirect } from '@reach/router';
 
-function App() {
+import Login from './components/login';
+import Register from './components/register';
+import Dashboard from './components/dashboard';
+
+import './App.css';
+import PrivateRoute from './components/privateRoute';
+
+const App = () => {
+  const isAllowed = false;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Login path="/login" />
+      <Register path="/register" />
+      <PrivateRoute as={Dashboard} path="dashboard"></PrivateRoute>
+    </Router>
   );
-}
+};
 
 export default App;
