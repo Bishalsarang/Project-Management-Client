@@ -1,8 +1,19 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
+import { Card, Container, ListGroup } from 'react-bootstrap';
+
+import Header from '../common/Header';
+
+import ProjectList from '../projectList';
 
 const Dashboard = () => {
-  return <Container>Dashboard</Container>;
+  return (
+    <>
+      <Header />
+      <Container className="dashboard">
+        <ProjectList />
+      </Container>
+    </>
+  );
 };
 
 export default Dashboard;

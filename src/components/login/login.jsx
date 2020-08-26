@@ -3,6 +3,7 @@ import { Redirect } from '@reach/router';
 
 import { Form, Button } from 'react-bootstrap';
 import * as Yup from 'yup';
+import { ROUTES } from '../../constants';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -41,7 +42,7 @@ const Login = () => {
   };
 
   if (isAuth) {
-    return <Redirect to="../dashboard" noThrow />;
+    return <Redirect to={'..' + ROUTES.dashboard} noThrow />;
   }
 
   return (
