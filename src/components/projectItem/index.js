@@ -14,6 +14,8 @@ const ProjectItem = ({ id, title, description, createdAt, ...props }) => {
   const [membersList, setMembersList] = useState([]);
   const [error, setError] = useState(props.error);
 
+  const handleDelete = () => {};
+
   useEffect(() => {
     //  Call API
     props
@@ -37,7 +39,9 @@ const ProjectItem = ({ id, title, description, createdAt, ...props }) => {
             View
           </Button>
           <Button className="mr-3 mb-2">Update</Button>
-          <Button className="mr-3 mb-2 btn-danger">Delete</Button>
+          <Button className="mr-3 mb-2 btn-danger" onClick={handleDelete}>
+            Delete
+          </Button>
           <Link to={`/project/${id}/tasks`}>
             <Button>Show all tasks</Button>
           </Link>
@@ -58,7 +62,6 @@ const ProjectItem = ({ id, title, description, createdAt, ...props }) => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary">Understood</Button>
         </Modal.Footer>
       </Modal>
     </div>

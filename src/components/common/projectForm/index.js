@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Col, Button, Container } from 'react-bootstrap';
+import { Form, Col, Button, Container, Toast } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import fetcher from '../../../utils/axiosIntercept';
@@ -7,7 +7,7 @@ import fetcher from '../../../utils/axiosIntercept';
 import * as userActions from '../../../actions/userAction';
 
 import MembersTable from '../../membersTable';
-import { API_PROJECTS_URL } from '../../../constants';
+import { API_PROJECTS_URL, ROUTES } from '../../../constants';
 import { navigate } from '@reach/router';
 
 const ProjectForm = (props) => {
@@ -39,7 +39,16 @@ const ProjectForm = (props) => {
       fetcher
         .post(API_PROJECTS_URL, data)
         .then((res) => {
-          navigate('/projects');
+          navigate(ROUTES.projects);
+        })
+        .catch((err) => console.log('failed'));
+    }
+    //  Make a PUT request
+    if (mode === 'update') {
+      fetcher
+        .put(API_PROJECTS_URL + props.projectId, data)
+        .then((res) => {
+          navigate(ROUTES.projects);
         })
         .catch((err) => console.log('failed'));
     }
@@ -56,7 +65,6 @@ const ProjectForm = (props) => {
 
   return (
     <Container className="mt-3">
-      <div>{props.mode}</div>
       <Form onSubmit={(e) => handleSubmit(e)}>
         {/* Title */}
         <Form.Row>
