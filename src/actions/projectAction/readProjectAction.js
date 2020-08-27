@@ -1,4 +1,3 @@
-import axios from 'axios';
 import fetcher from '../../utils/axiosIntercept';
 
 import * as constants from '../../constants';
@@ -30,8 +29,6 @@ export const readProject = () => {
 
       return data;
     } catch (error) {
-      console.log(error);
-
       return dispatch(fetchProjectFailure(error));
     }
   };

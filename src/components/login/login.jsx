@@ -12,11 +12,10 @@ import { ROUTES } from '../../constants';
 const Login = (props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [isAuth, setAuth] = useState(false);
+  const [isAuth, setAuth] = useState(localStorage.getItem('token'));
   const [validated, setValidated] = useState(false);
 
   useEffect(() => {
-    console.log(props);
     //  props.dispatch(loginUser()).then((res) => console.log(res));
   }, [props]);
 
@@ -42,16 +41,15 @@ const Login = (props) => {
           )
           .catch((err) => console.log(err));
       } else {
-        // Call Login API
+        props.dispatch(loginUser(username, password)).then((res) => setAuth(true));
       }
     });
-    props.dispatch(loginUser(username, password)).then((res) => setAuth(true));
 
     setValidated(true);
   };
 
   if (isAuth) {
-    return <Redirect to={'..' + ROUTES.dashboard} noThrow />;
+    return <Redirect to={'..' + ROUTES.project} noThrow />;
   }
 
   return (

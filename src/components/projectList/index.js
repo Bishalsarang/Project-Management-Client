@@ -5,6 +5,8 @@ import ProjectItem from '../projectItem';
 
 import * as projectActions from '../../actions/projectAction';
 
+import './style.css';
+
 const ProjectList = (props) => {
   const [projectList, setProjectList] = useState([]);
   const [error, setError] = useState('');
@@ -26,16 +28,19 @@ const ProjectList = (props) => {
   }
 
   return (
-    <ListGroup>
-      {projectList.map(({ id, title, description, created_at: createdAt }) => (
-        <ProjectItem key={id} title={title} description={description} created_at={createdAt} />
-      ))}
-    </ListGroup>
+    <>
+      <h3 className="project-title text-center">Projects({projectList.length})</h3>
+      <div className="project-list">
+        {projectList.map(({ id, title, description, created_at: createdAt }) => (
+          <ProjectItem key={id} id={id} title={title} description={description} created_at={createdAt} />
+        ))}
+      </div>
+    </>
   );
 };
 
 const mapStateToProps = (state) => ({
-  user: state.readProject.projects,
+  projects: state.readProject.tasks,
   isLoading: state.readProject.isLoading,
   error: state.readProject.error,
 });

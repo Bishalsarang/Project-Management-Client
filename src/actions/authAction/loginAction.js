@@ -37,9 +37,11 @@ export const loginUser = (username, password) => {
 
     try {
       const res = await axios.post(constants.API_LOGIN_URL, data);
-      const { token } = res.data;
+      const { token, username, role } = res.data;
 
       localStorage.setItem('token', token);
+      localStorage.setItem('username', username);
+      localStorage.setItem('role', role);
 
       dispatch(loginUserSuccess(token));
 
