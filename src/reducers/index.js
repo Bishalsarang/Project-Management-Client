@@ -4,13 +4,13 @@
  */
 import { combineReducers } from 'redux';
 
-import fetchReducer from './fetch';
+import loginReducer from './loginReducer';
+
+import readProjectReducer from './readProjectReducer';
 
 const reducer = combineReducers({
-  repo: repoReducer,
-  fetch: fetchReducer,
-  users: usersReducer,
-  profile: profileReducer,
+  login: loginReducer,
+  readProject: readProjectReducer,
 });
 
 export default reducer;

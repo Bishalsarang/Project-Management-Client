@@ -1,20 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect } from '@reach/router';
+import { connect } from 'react-redux';
 
 import { Form, Button } from 'react-bootstrap';
 import * as Yup from 'yup';
+
+import { loginUser } from '../../actions/authAction';
+
 import { ROUTES } from '../../constants';
 
-const Login = () => {
+const Login = (props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isAuth, setAuth] = useState(false);
   const [validated, setValidated] = useState(false);
 
-  const isAuth = true;
+  useEffect(() => {
+    console.log(props);
+    //  props.dispatch(loginUser()).then((res) => console.log(res));
+  }, [props]);
 
   const schema = Yup.object({
-    username: Yup.string().max(20, 'Username must be 15 characters or less').required('Username is required'),
-    password: Yup.string().min(8, 'Password must be 8 characters or more').required('Password is required'),
+    username: Yup.string(), // .max(20, 'Username must be 15 characters or less').required('Username is required'),
+    password: Yup.string(), // .min(8, 'Password must be 8 characters or more').required('Password is required'),
   });
 
   const handleSubmit = (e) => {
@@ -37,6 +45,7 @@ const Login = () => {
         // Call Login API
       }
     });
+    props.dispatch(loginUser(username, password)).then((res) => setAuth(true));
 
     setValidated(true);
   };
@@ -85,4 +94,10 @@ const Login = () => {
   );
 };
 
-export default Login;
+const mapStateToProps = (state) => ({
+  user: state.login.user,
+  isLoading: state.login.isLoading,
+  error: state.login.error,
+});
+
+export default connect(mapStateToProps)(Login);
