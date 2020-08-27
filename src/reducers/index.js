@@ -6,13 +6,16 @@ import { combineReducers } from 'redux';
 
 import loginReducer from './loginReducer';
 
-import readProjectReducer from './readProjectReducer';
+import { readProjectReducer, getProjectMembersReducer } from './readProjectReducer';
 import readTaskReducer from './readTaskReducer';
+import getUsersReducer from './getUsersReducer';
 
 const reducer = combineReducers({
   login: loginReducer,
-  readProject: readProjectReducer,
+  getUsers: getUsersReducer,
   readTask: readTaskReducer,
+  readProject: readProjectReducer,
+  getProjectMember: getProjectMembersReducer,
 });
 
 export default reducer;

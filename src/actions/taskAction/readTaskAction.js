@@ -22,6 +22,7 @@ export const readTask = (projectId) => {
     dispatch(fetchTaskRequest());
 
     try {
+      //  Get all tasks inside project
       const res = await fetcher.get(constants.API_GET_PROJECTS_URL + projectId + '/tasks');
 
       const { data } = res.data;
@@ -30,7 +31,7 @@ export const readTask = (projectId) => {
 
       return data;
     } catch (error) {
-      return dispatch(fetchTaskFailure(error));
+      dispatch(fetchTaskFailure(error));
     }
   };
 };

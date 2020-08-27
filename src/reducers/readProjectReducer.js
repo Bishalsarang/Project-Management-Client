@@ -1,17 +1,30 @@
-import { FETCH_PROJECT_REQUEST, FETCH_PROJECT_SUCCESS, FETCH_PROJECT_FAILURE } from '../actions/projectAction';
+import {
+  FETCH_PROJECT_REQUEST,
+  FETCH_PROJECT_SUCCESS,
+  FETCH_PROJECT_FAILURE,
+  FETCH_PROJECT_MEMBERS_REQUEST,
+  FETCH_PROJECT_MEMBERS_SUCCESS,
+  FETCH_PROJECT_MEMBERS_FAILURE,
+} from '../actions/projectAction';
 
-const INITIAL_STATE = {
+const PROJECT_INITIAL_STATE = {
   isLoading: false,
   projects: [],
   error: '',
 };
 
-const readProjectReducer = (state = INITIAL_STATE, action) => {
+const PROJECT_MEMBERS_INITIAL_STATE = {
+  isLoading: false,
+  members: [],
+  error: '',
+};
+
+const readProjectReducer = (state = PROJECT_INITIAL_STATE, action) => {
   switch (action.type) {
     case FETCH_PROJECT_REQUEST:
       return { ...state, isLoading: true, error: null };
     case FETCH_PROJECT_SUCCESS:
-      return { ...state, isLoading: false, user: action.payload.projects };
+      return { ...state, isLoading: false, projects: action.payload.projects };
     case FETCH_PROJECT_FAILURE:
       return { ...state, isLoading: false, error: action.payload.error };
 
@@ -20,4 +33,18 @@ const readProjectReducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default readProjectReducer;
+const getProjectMembersReducer = (state = PROJECT_MEMBERS_INITIAL_STATE, action) => {
+  switch (action.type) {
+    case FETCH_PROJECT_MEMBERS_REQUEST:
+      return { ...state, isLoading: true, error: null };
+    case FETCH_PROJECT_MEMBERS_SUCCESS:
+      return { ...state, isLoading: false, user: action.payload.members };
+    case FETCH_PROJECT_MEMBERS_FAILURE:
+      return { ...state, isLoading: false, error: action.payload.error };
+
+    default:
+      return state;
+  }
+};
+
+export { readProjectReducer, getProjectMembersReducer };

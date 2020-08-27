@@ -1,35 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { ListGroup } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Button } from 'react-bootstrap';
+import { navigate } from '@reach/router';
 import { connect } from 'react-redux';
 import ProjectItem from '../projectItem';
 
 import * as projectActions from '../../actions/projectAction';
 
 import './style.css';
+import { ROUTES } from '../../constants';
 
 const ProjectList = (props) => {
-  const [projectList, setProjectList] = useState([]);
-  const [error, setError] = useState('');
+  const { projects: projectList, isLoading, error } = props;
 
   useEffect(() => {
     //  Call API
-    props
-      .readProject()
-      .then((data) => setProjectList(data))
-      .catch((err) => setError(err));
+    props.readProject();
   }, []);
 
+  const handleAdd = () => {
+    navigate(ROUTES.projectAdd);
+  };
+
   if (error) {
-    return <div>{error}</div>;
+    return <div>{error.message}</div>;
   }
 
-  if (props.isLoading) {
+  if (isLoading) {
     return <div>Loading</div>;
   }
 
   return (
     <>
       <h3 className="project-title text-center">Projects({projectList.length})</h3>
+      <Button className="mr-3 mb-2" onClick={handleAdd}>
+        Add Project
+      </Button>
       <div className="project-list">
         {projectList.map(({ id, title, description, created_at: createdAt }) => (
           <ProjectItem key={id} id={id} title={title} description={description} created_at={createdAt} />
@@ -40,14 +45,16 @@ const ProjectList = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  projects: state.readProject.tasks,
+  projects: state.readProject.projects,
+
   isLoading: state.readProject.isLoading,
+
   error: state.readProject.error,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   readProject: () => {
-    return dispatch(projectActions.readProject());
+    dispatch(projectActions.readProject());
   },
 });
 

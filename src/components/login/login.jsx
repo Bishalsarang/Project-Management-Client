@@ -49,7 +49,7 @@ const Login = (props) => {
   };
 
   if (isAuth) {
-    return <Redirect to={'..' + ROUTES.project} noThrow />;
+    return <Redirect to={'..' + ROUTES.projects} noThrow />;
   }
 
   return (
