@@ -8,6 +8,8 @@ import fetcher from '../../utils/axiosIntercept';
 import { API_PROJECTS_URL, ROLES, ROUTES } from '../../constants';
 
 import MembersTable from '../membersTable';
+import AddMemberModal from '../addMembers';
+
 import * as userActions from '../../actions/userAction';
 import * as projectActions from '../../actions/projectAction';
 
@@ -82,7 +84,9 @@ const ProjectItem = ({ id, title, description, createdAt, ...props }) => {
           <Button className="mr-3 mb-2 btn-primary" onClick={handleShowAddMembers}>
             Add members
           </Button>
-
+          <Button className="mr-3 mb-2 btn-primary" onClick={handleShowAddMembers}>
+            Add tasks
+          </Button>
           <Link to={`/project/${id}/tasks`}>
             <Button>Show all tasks</Button>
           </Link>
@@ -106,36 +110,14 @@ const ProjectItem = ({ id, title, description, createdAt, ...props }) => {
         </Modal.Footer>
       </Modal>
       {/* Add members */}
-      <Modal
-        size="xl"
-        show={showAddMembers}
-        onHide={handleCloseAddMembers}
-        backdrop="static"
-        keyboard={false}
-        className=""
-      >
-        <Modal.Header closeButton>
-          <Modal.Title className="text-center">{title}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h3 className="text-center">Add Members </h3>
-
-          <Form>
-            <Form.Control as="select" onChange={(e) => setUserId(e.target.value)}>
-              {users.map((user) => (
-                <option key={user.id} value={user.id}>
-                  {user.username}
-                </option>
-              ))}
-            </Form.Control>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleAddMembers}>
-            Add
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <AddMemberModal
+        users={users}
+        title={title}
+        setUserId={setUserId}
+        showAddMembers={showAddMembers}
+        handleAddMembers={handleAddMembers}
+        handleCloseAddMembers={handleCloseAddMembers}
+      />
     </div>
   );
 };
