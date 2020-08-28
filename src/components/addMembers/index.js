@@ -19,11 +19,12 @@ const AddMemberModal = ({ users, title, setUserId, showAddMembers, handleCloseAd
 
         <Form>
           <Form.Control as="select" onChange={(e) => setUserId(e.target.value)}>
-            {users.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.username}
-              </option>
-            ))}
+            {users &&
+              users.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.username}
+                </option>
+              ))}
           </Form.Control>
         </Form>
       </Modal.Body>

@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 
 import { connect } from 'react-redux';
 import { Link, navigate } from '@reach/router';
-import { Card, Button, ButtonToolbar, Modal, Form } from 'react-bootstrap';
+import { Card, Button, ButtonToolbar, Modal } from 'react-bootstrap';
 
 import fetcher from '../../utils/axiosIntercept';
-import { isAdmin, isProjectManager, isEngineer, isTeamLeader } from '../../utils/auth';
 import { API_PROJECTS_URL, ROLES, ROUTES } from '../../constants';
+import { isAdmin, isProjectManager, isTeamLeader } from '../../utils/auth';
 
 import AddTaskModal from '../addTasks';
 import MembersTable from '../membersTable';
@@ -16,7 +16,6 @@ import * as userActions from '../../actions/userAction';
 import * as projectActions from '../../actions/projectAction';
 
 import './style.css';
-import TaskForm from '../common/taskForm';
 
 const ProjectItem = ({ id, title, description, createdAt, ...props }) => {
   const [users, setUsers] = useState([]);
@@ -30,7 +29,7 @@ const ProjectItem = ({ id, title, description, createdAt, ...props }) => {
   const handleDelete = () => {
     fetcher
       .delete(API_PROJECTS_URL + id)
-      .then((res) => navigate(ROUTES.projects))
+      .then(() => navigate(ROUTES.home))
       .catch((err) => console.log(err));
   };
 
@@ -41,7 +40,8 @@ const ProjectItem = ({ id, title, description, createdAt, ...props }) => {
   const handleAddMembers = () => {
     const data = { user_id: userId, project_id: id };
 
-    fetcher.post(API_PROJECTS_URL + id + '/users', data).then((res) => {
+    console.log('hi', userId);
+    fetcher.post(API_PROJECTS_URL + id + '/users', data).then(() => {
       setShowAddMembers(false);
       navigate(ROUTES.projects);
     });

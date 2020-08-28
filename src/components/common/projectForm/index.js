@@ -7,7 +7,6 @@ import fetcher from '../../../utils/axiosIntercept';
 import * as userActions from '../../../actions/userAction';
 import * as projectActions from '../../../actions/projectAction';
 
-import MembersTable from '../../membersTable';
 import { API_PROJECTS_URL, ROUTES } from '../../../constants';
 import { navigate } from '@reach/router';
 
@@ -16,7 +15,6 @@ const ProjectForm = (props) => {
   const [projectInfo, setProjectInfo] = useState({});
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [manager, setManager] = useState('');
   const [errors, setErrors] = useState(props.error);
 
   // title, description, manager
@@ -56,7 +54,7 @@ const ProjectForm = (props) => {
     if (mode === 'create') {
       fetcher
         .post(API_PROJECTS_URL, data)
-        .then((res) => {
+        .then(() => {
           navigate(ROUTES.projects);
         })
         .catch((err) => setErrors(err));
@@ -65,7 +63,7 @@ const ProjectForm = (props) => {
     if (mode === 'update') {
       fetcher
         .put(API_PROJECTS_URL + props.projectId, data)
-        .then((res) => {
+        .then(() => {
           navigate(ROUTES.projects);
         })
         .catch((err) => setErrors(err));
@@ -121,12 +119,6 @@ const ProjectForm = (props) => {
           </Form.Group>
         </Form.Row>
 
-        {/* Members */}
-        <Form.Row>
-          <Form.Group as={Col} controlId="members">
-            <MembersTable membersList={[]} />
-          </Form.Group>
-        </Form.Row>
         <Button variant="primary" type="submit">
           Submit
         </Button>

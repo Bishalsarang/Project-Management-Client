@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
 import { Button, Alert } from 'react-bootstrap';
 import { navigate } from '@reach/router';
 import { connect } from 'react-redux';
 
-import { isAdmin, isProjectManager } from '../../utils/auth';
+import { isAdmin } from '../../utils/auth';
 import ProjectItem from '../projectItem';
 
 import * as projectActions from '../../actions/projectAction';
@@ -33,18 +34,19 @@ const ProjectList = (props) => {
 
   return (
     <>
-      <h3 className="project-title text-center">Projects({projectList.length})</h3>
+      {projectList && <h3 className="project-title text-center">Projects({projectList.length})</h3>}
       {isAdmin() && (
         <Button className="mr-3 mb-2" onClick={handleAdd}>
           Add Project
         </Button>
       )}
-
       <div className="project-list">
-        {projectList.map(({ id, title, description, created_at: createdAt }) => (
-          <ProjectItem key={id} id={id} title={title} description={description} created_at={createdAt} />
-        ))}
+        {projectList &&
+          projectList.map(({ id, title, description, created_at: createdAt }) => (
+            <ProjectItem key={id} id={id} title={title} description={description} created_at={createdAt} />
+          ))}
       </div>
+      }
     </>
   );
 };

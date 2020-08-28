@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
 import { connect } from 'react-redux';
+import { navigate } from '@reach/router';
 import { Button, Modal, Form, Col, Alert } from 'react-bootstrap';
+
 import { addTask } from '../../actions/taskAction/addTaskAction';
 import { getProjectMembers } from '../../actions/projectAction/readProjectAction';
-const AddTaskModal = ({
-  users,
-  setUserId,
-  projectId,
-  projectTitle,
-  showAddTasks,
 
-  handleCloseAddTasks,
-  ...props
-}) => {
+import { ROUTES } from '../../constants/index';
+
+const AddTaskModal = ({ projectId, projectTitle, showAddTasks, handleCloseAddTasks, ...props }) => {
   const [title, setTitle] = useState('');
   const [errors, setErrors] = useState(props.error);
   const [description, setDescription] = useState('');
@@ -39,7 +35,7 @@ const AddTaskModal = ({
         description: description.value,
         user_id: assignee.value,
       })
-      .then((res) => console.log('hi', res))
+      .then((res) => navigate(ROUTES.home))
       .catch((err) => setErrors(err));
   };
 

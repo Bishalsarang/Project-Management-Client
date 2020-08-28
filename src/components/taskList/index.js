@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { ListGroup } from 'react-bootstrap';
+import { ListGroup, Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import TaskItem from '../taskItem';
 
 import * as taskAction from '../../actions/taskAction';
 
 const TaskList = (props) => {
-  console.log(props);
   const [taskList, setTaskList] = useState([]);
   const [error, setError] = useState('');
 
@@ -27,11 +26,14 @@ const TaskList = (props) => {
   }
 
   return (
-    <ListGroup>
-      {taskList.map(({ id, title, description, created_at: createdAt }) => (
-        <TaskItem key={id} title={title} description={description} created_at={createdAt} />
-      ))}
-    </ListGroup>
+    <Container>
+      <h3 className="text-center">Task List</h3>
+      <ListGroup>
+        {taskList.map(({ id, title, description, created_at: createdAt }) => (
+          <TaskItem key={id} title={title} description={description} created_at={createdAt} />
+        ))}
+      </ListGroup>
+    </Container>
   );
 };
 
