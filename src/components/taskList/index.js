@@ -29,8 +29,8 @@ const TaskList = (props) => {
     <Container>
       <h3 className="text-center">Task List</h3>
       <ListGroup>
-        {taskList.map(({ id, title, description, created_at: createdAt }) => (
-          <TaskItem key={id} title={title} description={description} created_at={createdAt} />
+        {taskList.map(({ id, title, description, deadline }) => (
+          <TaskItem key={id} id={id} title={title} description={description} deadline={deadline} />
         ))}
       </ListGroup>
     </Container>

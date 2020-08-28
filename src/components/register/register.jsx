@@ -75,8 +75,8 @@ const Register = () => {
         className="register-form  w-50 col-md-6 offset-md-3 col pt-5"
         onSubmit={(e) => handleSubmit(e)}
       >
-        {errors && <Alert variant="danger">{errors}</Alert>}
-        {success && <Alert variant="success">{success}</Alert>}
+        {errors && <Alert variant="danger">{JSON.stringify(errors)}</Alert>}
+        {success && <Alert variant="success">{JSON.stringify(success)}</Alert>}
         <Form.Group controlId="firstname">
           <Form.Label>Firstname</Form.Label>
           <Form.Control
