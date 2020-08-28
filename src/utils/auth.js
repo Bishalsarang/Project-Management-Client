@@ -8,3 +8,11 @@ export const isAdmin = () => {
 export const isProjectManager = () => {
   return ROLES.projectManager === getValue('role');
 };
+
+export const isTeamLeader = () => {
+  return ROLES.teamLead === getValue('role');
+};
+
+export const isEngineer = () => {
+  return ROLES.engineer === getValue('role');
+};

@@ -34,10 +34,12 @@ const ProjectList = (props) => {
   return (
     <>
       <h3 className="project-title text-center">Projects({projectList.length})</h3>
+      {isAdmin() && (
+        <Button className="mr-3 mb-2" onClick={handleAdd}>
+          Add Project
+        </Button>
+      )}
 
-      <Button className="mr-3 mb-2" onClick={handleAdd}>
-        Add Project
-      </Button>
       <div className="project-list">
         {projectList.map(({ id, title, description, created_at: createdAt }) => (
           <ProjectItem key={id} id={id} title={title} description={description} created_at={createdAt} />

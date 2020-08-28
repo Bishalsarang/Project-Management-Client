@@ -1,7 +1,6 @@
 import React from 'react';
 import { Router } from '@reach/router';
 
-import Home from './components/home';
 import Login from './components/login';
 import Register from './components/register';
 import taskList from './components/taskList';
@@ -12,7 +11,6 @@ import PrivateRoute from './components/privateRoute';
 import ProjectForm from './components/common/projectForm';
 
 import { ROUTES } from './constants';
-import { isAdmin, isProjectManager } from './utils/auth';
 
 import './App.css';
 
@@ -22,16 +20,16 @@ const App = () => {
       <Login path={ROUTES.login} />
 
       {/* Only admin has access to register */}
-      {isAdmin() && <Register path={ROUTES.register} />}
+      <Register path={ROUTES.register} />
       <PrivateRoute as={Dashboard} path={ROUTES.projects}></PrivateRoute>
       <PrivateRoute as={Dashboard} path={ROUTES.home}></PrivateRoute>
       <PrivateRoute as={taskList} path={ROUTES.projectsTasks}></PrivateRoute>
       {/* Only admin is allowed to add project */}
-      {isAdmin() && <PrivateRoute as={ProjectForm} path={ROUTES.projectAdd} mode="create"></PrivateRoute>}
+      <PrivateRoute as={ProjectForm} path={ROUTES.projectAdd} mode="create"></PrivateRoute>
 
-      {(isAdmin() || isProjectManager()) && (
-        <PrivateRoute as={ProjectForm} path={ROUTES.projectEdit} mode="update"></PrivateRoute>
-      )}
+      <PrivateRoute as={ProjectForm} path={ROUTES.projectEdit} mode="update"></PrivateRoute>
+
+      {/* <PrivateRoute as={TaskForm} path={ROUTES.taskAdd} mode="create"></PrivateRoute> */}
 
       <NotFound default />
     </Router>

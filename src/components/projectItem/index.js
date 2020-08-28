@@ -5,8 +5,10 @@ import { Link, navigate } from '@reach/router';
 import { Card, Button, ButtonToolbar, Modal, Form } from 'react-bootstrap';
 
 import fetcher from '../../utils/axiosIntercept';
+import { isAdmin, isProjectManager, isEngineer, isTeamLeader } from '../../utils/auth';
 import { API_PROJECTS_URL, ROLES, ROUTES } from '../../constants';
 
+import AddTaskModal from '../addTasks';
 import MembersTable from '../membersTable';
 import AddMemberModal from '../addMembers';
 
@@ -14,20 +16,22 @@ import * as userActions from '../../actions/userAction';
 import * as projectActions from '../../actions/projectAction';
 
 import './style.css';
+import TaskForm from '../common/taskForm';
 
 const ProjectItem = ({ id, title, description, createdAt, ...props }) => {
   const [show, setShow] = useState(false);
   const [showAddMembers, setShowAddMembers] = useState(false);
+  const [showAddTasks, setShowAddTasks] = useState(false);
   const [membersList, setMembersList] = useState([]);
   const [users, setUsers] = useState([]);
   const [userId, setUserId] = useState('');
   const [error, setError] = useState(props.error);
 
   const handleDelete = () => {
-    //  fetcher
-    //    .delete(API_PROJECTS_URL + id)
-    //    .then((res) => setDeleteStatus(true))
-    //    .catch((err) => console.log(err));
+    fetcher
+      .delete(API_PROJECTS_URL + id)
+      .then((res) => navigate(ROUTES.projects))
+      .catch((err) => console.log(err));
   };
 
   const handleUpdate = () => {
@@ -61,8 +65,12 @@ const ProjectItem = ({ id, title, description, createdAt, ...props }) => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
   const handleCloseAddMembers = () => setShowAddMembers(false);
   const handleShowAddMembers = () => setShowAddMembers(true);
+
+  const handleCloseAddTasks = () => setShowAddTasks(false);
+  const handleShowAddTasks = () => setShowAddTasks(true);
 
   return (
     <div className="project-item neumo-element">
@@ -75,16 +83,25 @@ const ProjectItem = ({ id, title, description, createdAt, ...props }) => {
           <Button className="mr-3 mb-2 btn-success" onClick={handleShow}>
             View
           </Button>
-          <Button className="mr-3 mb-2" onClick={handleUpdate}>
-            Update
-          </Button>
-          <Button className="mr-3 mb-2 btn-danger" onClick={handleDelete}>
-            Delete
-          </Button>
-          <Button className="mr-3 mb-2 btn-primary" onClick={handleShowAddMembers}>
-            Add members
-          </Button>
-          <Button className="mr-3 mb-2 btn-primary" onClick={handleShowAddMembers}>
+          {/* Update is only allowed by PM and admin */}
+          {(isAdmin() || isProjectManager()) && (
+            <Button className="mr-3 mb-2" onClick={handleUpdate}>
+              Update
+            </Button>
+          )}
+          {/* Only admin can delete project */}
+          {isAdmin() && (
+            <Button className="mr-3 mb-2 btn-danger" onClick={handleDelete}>
+              Delete
+            </Button>
+          )}
+          {(isAdmin() || isProjectManager() || isTeamLeader()) && (
+            <Button className="mr-3 mb-2 btn-primary" onClick={handleShowAddMembers}>
+              Add members
+            </Button>
+          )}
+
+          <Button className="mr-3 mb-2 btn-primary" onClick={handleShowAddTasks}>
             Add tasks
           </Button>
           <Link to={`/project/${id}/tasks`}>
@@ -117,6 +134,14 @@ const ProjectItem = ({ id, title, description, createdAt, ...props }) => {
         showAddMembers={showAddMembers}
         handleAddMembers={handleAddMembers}
         handleCloseAddMembers={handleCloseAddMembers}
+      />
+      {/* Add tasks */}
+      <AddTaskModal
+        users={users}
+        projectId={id}
+        projectTitle={title}
+        showAddTasks={showAddTasks}
+        handleCloseAddTasks={handleCloseAddTasks}
       />
     </div>
   );

@@ -16,6 +16,8 @@ export const API_REGISTER_URL = API_BASE_URL + 'auth/register/';
 
 export const API_GET_PROJECTS_URL = API_BASE_URL + 'projects/';
 export const API_PROJECTS_URL = API_BASE_URL + 'projects/';
+export const API_TASKS_URL = API_BASE_URL + 'tasks/';
+
 export const API_USERS_URL = API_BASE_URL + 'users/';
 
 export const API_GET_TASKS_URL = API_BASE_URL + 'tasks/';
