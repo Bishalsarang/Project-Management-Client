@@ -97,7 +97,12 @@ const ProjectForm = (props) => {
         <Form.Row>
           <Form.Group as={Col} controlId="description">
             <Form.Label>Description</Form.Label>
-            <Form.Control value={description} type="text" placeholder="Enter project description" />
+            <Form.Control
+              value={description}
+              type="text"
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Enter project description"
+            />
           </Form.Group>
         </Form.Row>
         {/* Manager  */}

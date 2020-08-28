@@ -57,6 +57,10 @@ const Register = () => {
     setValidated(true);
   };
 
+  const handleClickHome = () => {
+    navigate(constants.ROUTES.home);
+  };
+
   // THis route is allowed for admin only
   if (!isAdmin()) {
     return <Redirect to={constants.ROUTES.projects} noThrow></Redirect>;
@@ -129,6 +133,10 @@ const Register = () => {
 
         <Button variant="primary" type="Submit">
           Submit
+        </Button>
+
+        <Button variant="primary" onClick={handleClickHome}>
+          Goto Home
         </Button>
       </Form>
     </div>

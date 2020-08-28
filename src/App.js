@@ -19,12 +19,12 @@ import './App.css';
 const App = () => {
   return (
     <Router>
-      <Home path={ROUTES.home} />
       <Login path={ROUTES.login} />
 
       {/* Only admin has access to register */}
       {isAdmin() && <Register path={ROUTES.register} />}
       <PrivateRoute as={Dashboard} path={ROUTES.projects}></PrivateRoute>
+      <PrivateRoute as={Dashboard} path={ROUTES.home}></PrivateRoute>
       <PrivateRoute as={taskList} path={ROUTES.projectsTasks}></PrivateRoute>
       {/* Only admin is allowed to add project */}
       {isAdmin() && <PrivateRoute as={ProjectForm} path={ROUTES.projectAdd} mode="create"></PrivateRoute>}

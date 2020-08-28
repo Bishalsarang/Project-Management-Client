@@ -40,7 +40,6 @@ export const getProjectMembers = (projectId) => {
       const res = await fetcher.get(constants.API_GET_PROJECTS_URL + projectId + '/users');
       const { data } = res.data;
 
-      console.log(data);
       dispatch(fetchProjectMembersSuccess(data));
 
       return data;
@@ -62,7 +61,7 @@ export const readProject = () => {
 
       return data;
     } catch (error) {
-      dispatch(fetchProjectFailure(error));
+      dispatch(fetchProjectFailure(error.response.data.message));
     }
   };
 };

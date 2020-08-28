@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Alert } from 'react-bootstrap';
 import { navigate } from '@reach/router';
 import { connect } from 'react-redux';
+
+import { isAdmin, isProjectManager } from '../../utils/auth';
 import ProjectItem from '../projectItem';
 
 import * as projectActions from '../../actions/projectAction';
@@ -22,7 +24,7 @@ const ProjectList = (props) => {
   };
 
   if (error) {
-    return <div>{error.message}</div>;
+    return <Alert variant="danger">{error}</Alert>;
   }
 
   if (isLoading) {
@@ -32,6 +34,7 @@ const ProjectList = (props) => {
   return (
     <>
       <h3 className="project-title text-center">Projects({projectList.length})</h3>
+
       <Button className="mr-3 mb-2" onClick={handleAdd}>
         Add Project
       </Button>

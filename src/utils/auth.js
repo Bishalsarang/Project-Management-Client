@@ -1,5 +1,5 @@
-import { getValue, setValue, removeValue } from './localstorage';
 import { ROLES } from '../constants';
+import { getValue } from './localstorage';
 
 export const isAdmin = () => {
   return ROLES.admin === getValue('role');

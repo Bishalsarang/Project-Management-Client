@@ -31,7 +31,7 @@ export const readTask = (projectId) => {
 
       return data;
     } catch (error) {
-      dispatch(fetchTaskFailure(error));
+      dispatch(fetchTaskFailure(error.response.data.message));
     }
   };
 };
