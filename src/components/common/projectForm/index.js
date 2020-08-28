@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Col, Button, Container } from 'react-bootstrap';
+import { Form, Col, Button, Container, Alert } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import fetcher from '../../../utils/axiosIntercept';
@@ -17,6 +17,7 @@ const ProjectForm = (props) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [manager, setManager] = useState('');
+  const [errors, setErrors] = useState(props.error);
 
   // title, description, manager
   const { users, isLoading, error, mode, projects, projectId } = props;
@@ -58,7 +59,7 @@ const ProjectForm = (props) => {
         .then((res) => {
           navigate(ROUTES.projects);
         })
-        .catch((err) => console.log('failed'));
+        .catch((err) => setErrors(err));
     }
     //  Make a PUT request
     if (mode === 'update') {
@@ -67,7 +68,7 @@ const ProjectForm = (props) => {
         .then((res) => {
           navigate(ROUTES.projects);
         })
-        .catch((err) => console.log('failed'));
+        .catch((err) => setErrors(err));
     }
   };
 
@@ -80,6 +81,7 @@ const ProjectForm = (props) => {
 
   return (
     <Container className="mt-3">
+      {errors && <Alert variant="danger">{errors.response.data.message}</Alert>}
       <Form onSubmit={(e) => handleSubmit(e)}>
         {/* Title */}
         <Form.Row>

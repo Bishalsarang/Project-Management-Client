@@ -19,13 +19,13 @@ import './style.css';
 import TaskForm from '../common/taskForm';
 
 const ProjectItem = ({ id, title, description, createdAt, ...props }) => {
-  const [show, setShow] = useState(false);
-  const [showAddMembers, setShowAddMembers] = useState(false);
-  const [showAddTasks, setShowAddTasks] = useState(false);
-  const [membersList, setMembersList] = useState([]);
   const [users, setUsers] = useState([]);
+  const [show, setShow] = useState(false);
   const [userId, setUserId] = useState('');
   const [error, setError] = useState(props.error);
+  const [membersList, setMembersList] = useState([]);
+  const [showAddTasks, setShowAddTasks] = useState(false);
+  const [showAddMembers, setShowAddMembers] = useState(false);
 
   const handleDelete = () => {
     fetcher

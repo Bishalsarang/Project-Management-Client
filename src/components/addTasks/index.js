@@ -27,7 +27,6 @@ const AddTaskModal = ({
     setErrors(props.error);
   }, [props.error]);
 
-  console.log(currentProjectUsers);
   const handleSubmit = (e) => {
     e.preventDefault();
     const { title, description, assignee, deadline } = e.target.elements;
@@ -40,7 +39,7 @@ const AddTaskModal = ({
         description: description.value,
         user_id: assignee.value,
       })
-      .then((res) => console.log(res.data.message))
+      .then((res) => console.log('hi', res))
       .catch((err) => setErrors(err));
   };
 
