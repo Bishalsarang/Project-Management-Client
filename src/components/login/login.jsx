@@ -36,12 +36,11 @@ const Login = (props) => {
             },
             { abortEarly: false },
           )
-          .catch((err) => console.log(err));
+          .catch((err) => setErrors(err));
       } else {
         props
           .dispatch(loginUser(username, password))
           .then((res) => {
-            console.log(res);
             if (res.type === LOGIN_USER_FAILURE) {
               setErrors(res.payload.error.response.data.message);
             } else {
