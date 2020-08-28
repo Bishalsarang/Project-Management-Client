@@ -57,8 +57,9 @@ const Register = () => {
     setValidated(true);
   };
 
+  // THis route is allowed for admin only
   if (!isAdmin()) {
-    navigate(constants.ROUTES.projects);
+    return <Redirect to={constants.ROUTES.projects} noThrow></Redirect>;
   }
 
   return (

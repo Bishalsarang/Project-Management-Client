@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Toast, Modal } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 
 const SuccessModal = (props) => {
   const [show, setShow] = useState(props.show);

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Col, Button, Container, Toast } from 'react-bootstrap';
+import { Form, Col, Button, Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import fetcher from '../../../utils/axiosIntercept';
 
 import * as userActions from '../../../actions/userAction';
+import * as projectActions from '../../../actions/projectAction';
 
 import MembersTable from '../../membersTable';
 import { API_PROJECTS_URL, ROUTES } from '../../../constants';
@@ -12,17 +13,33 @@ import { navigate } from '@reach/router';
 
 const ProjectForm = (props) => {
   const [managers, setManagers] = useState([]);
+  const [projectInfo, setProjectInfo] = useState({});
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [manager, setManager] = useState('');
 
   // title, description, manager
-  const { users, isLoading, error, mode } = props;
+  const { users, isLoading, error, mode, projects, projectId } = props;
 
   useEffect(() => {
     props.getUsers();
+    props.readProject();
   }, []);
 
   useEffect(() => {
     setManagers(users.filter((user) => user.role === 'project_manager'));
   }, [users]);
+
+  useEffect(() => {
+    setProjectInfo(projects.filter((project) => project.id === parseInt(projectId))[0]);
+  }, [projects]);
+
+  useEffect(() => {
+    if (projectInfo) {
+      setTitle(projectInfo.title);
+      setDescription(projectInfo.description);
+    }
+  }, [projectInfo]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -52,8 +69,6 @@ const ProjectForm = (props) => {
         })
         .catch((err) => console.log('failed'));
     }
-
-    console.log(data);
   };
 
   if (error) {
@@ -70,14 +85,19 @@ const ProjectForm = (props) => {
         <Form.Row>
           <Form.Group as={Col} controlId="title">
             <Form.Label>Title</Form.Label>
-            <Form.Control type="text" placeholder="Enter project title" />
+            <Form.Control
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Enter project title"
+            />
           </Form.Group>
         </Form.Row>
         {/* Description */}
         <Form.Row>
           <Form.Group as={Col} controlId="description">
             <Form.Label>Description</Form.Label>
-            <Form.Control type="text" placeholder="Enter project description" />
+            <Form.Control value={description} type="text" placeholder="Enter project description" />
           </Form.Group>
         </Form.Row>
         {/* Manager  */}
@@ -93,6 +113,7 @@ const ProjectForm = (props) => {
             </Form.Control>
           </Form.Group>
         </Form.Row>
+
         {/* Members */}
         <Form.Row>
           <Form.Group as={Col} controlId="members">
@@ -113,11 +134,21 @@ const mapStateToProps = (state) => ({
   isLoading: state.getUsers.isLoading,
 
   error: state.getUsers.error,
+
+  members: state.getProjectMember.members,
+
+  projects: state.readProject.projects,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getUsers: () => {
     dispatch(userActions.getUsers());
+  },
+  getProjectMembers: (projectId) => {
+    return dispatch(projectActions.getProjectMembers(projectId));
+  },
+  readProject: () => {
+    dispatch(projectActions.readProject());
   },
 });
 

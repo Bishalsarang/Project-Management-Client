@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { Link } from '@reach/router';
+import { Link, navigate } from '@reach/router';
 import { connect } from 'react-redux';
 import { Card, Button, ButtonToolbar, Modal } from 'react-bootstrap';
 import * as projectActions from '../../actions/projectAction';
@@ -21,6 +21,10 @@ const ProjectItem = ({ id, title, description, createdAt, ...props }) => {
     //    .delete(API_PROJECTS_URL + id)
     //    .then((res) => setDeleteStatus(true))
     //    .catch((err) => console.log(err));
+  };
+
+  const handleUpdate = () => {
+    navigate('/projects/' + id + '/edit');
   };
 
   useEffect(() => {
@@ -45,7 +49,9 @@ const ProjectItem = ({ id, title, description, createdAt, ...props }) => {
           <Button className="mr-3 mb-2 btn-success" onClick={handleShow}>
             View
           </Button>
-          <Button className="mr-3 mb-2">Update</Button>
+          <Button className="mr-3 mb-2" onClick={handleUpdate}>
+            Update
+          </Button>
           <Button className="mr-3 mb-2 btn-danger" onClick={handleDelete}>
             Delete
           </Button>
@@ -58,11 +64,11 @@ const ProjectItem = ({ id, title, description, createdAt, ...props }) => {
       {/* Project Item View */}
       <Modal size="xl" show={show} onHide={handleClose} backdrop="static" keyboard={false} className="">
         <Modal.Header closeButton>
-          <Modal.Title>{title}</Modal.Title>
+          <Modal.Title className="text-center">{title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {description}
-          <h2>Members </h2>
+          <h3 className="text-center">Members </h3>
           <MembersTable membersList={membersList} />
         </Modal.Body>
         <Modal.Footer>
