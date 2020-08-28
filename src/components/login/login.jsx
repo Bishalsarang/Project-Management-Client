@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from '@reach/router';
 import { connect } from 'react-redux';
 
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Alert } from 'react-bootstrap';
 import * as Yup from 'yup';
 
-import { loginUser } from '../../actions/authAction';
+import { loginUser, LOGIN_USER_FAILURE } from '../../actions/authAction';
 
 import { ROUTES } from '../../constants';
 
@@ -14,10 +14,7 @@ const Login = (props) => {
   const [password, setPassword] = useState('');
   const [isAuth, setAuth] = useState(localStorage.getItem('token'));
   const [validated, setValidated] = useState(false);
-
-  useEffect(() => {
-    //  props.dispatch(loginUser()).then((res) => console.log(res));
-  }, [props]);
+  const [errors, setErrors] = useState('');
 
   const schema = Yup.object({
     username: Yup.string(), // .max(20, 'Username must be 15 characters or less').required('Username is required'),
@@ -41,7 +38,19 @@ const Login = (props) => {
           )
           .catch((err) => console.log(err));
       } else {
-        props.dispatch(loginUser(username, password)).then((res) => setAuth(true));
+        props
+          .dispatch(loginUser(username, password))
+          .then((res) => {
+            console.log(res);
+            if (res.type === LOGIN_USER_FAILURE) {
+              setErrors(res.payload.error.response.data.message);
+            } else {
+              setAuth(true);
+            }
+          })
+          .catch((err) => {
+            setErrors(err.response.data.message);
+          });
       }
     });
 
@@ -60,6 +69,8 @@ const Login = (props) => {
         className="login-form  w-50 col-md-6 offset-md-3 col pt-5"
         onSubmit={(e) => handleSubmit(e)}
       >
+        {errors && <Alert variant="danger">{errors}</Alert>}
+        <Form.Control.Feedback type="invalid">Password is required</Form.Control.Feedback>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Username</Form.Label>
           <Form.Control

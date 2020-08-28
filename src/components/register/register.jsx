@@ -5,7 +5,8 @@ import * as Yup from 'yup';
 const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [rePassword, setRePassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [validated, setValidated] = useState(false);
 
   const schema = Yup.object({
@@ -45,6 +46,28 @@ const Register = () => {
         className="login-form  w-50 col-md-6 offset-md-3 col pt-5"
         onSubmit={(e) => handleSubmit(e)}
       >
+        <Form.Group controlId="firstname">
+          <Form.Label>Firstname</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter firstname"
+            name="firstname"
+            onChange={(e) => setFirstName(e.target.value)}
+            required
+          />
+          <Form.Control.Feedback type="invalid">Firstname is required</Form.Control.Feedback>
+        </Form.Group>
+        <Form.Group controlId="lastname">
+          <Form.Label>Lastname</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter lastname"
+            name="lastname"
+            onChange={(e) => setLastName(e.target.value)}
+            required
+          />
+          <Form.Control.Feedback type="invalid">Firstname is required</Form.Control.Feedback>
+        </Form.Group>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Username</Form.Label>
           <Form.Control
@@ -64,18 +87,6 @@ const Register = () => {
             name="password"
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <Form.Control.Feedback type="invalid">Password is required</Form.Control.Feedback>
-        </Form.Group>
-
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            name="repassword"
-            placeholder="Reenter Password"
-            onChange={(e) => setRePassword(e.target.value)}
             required
           />
           <Form.Control.Feedback type="invalid">Password is required</Form.Control.Feedback>

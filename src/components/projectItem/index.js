@@ -8,13 +8,20 @@ import * as projectActions from '../../actions/projectAction';
 import MembersTable from '../membersTable';
 
 import './style.css';
+import fetcher from '../../utils/axiosIntercept';
+import { API_PROJECTS_URL } from '../../constants';
 
 const ProjectItem = ({ id, title, description, createdAt, ...props }) => {
   const [show, setShow] = useState(false);
   const [membersList, setMembersList] = useState([]);
   const [error, setError] = useState(props.error);
 
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    //  fetcher
+    //    .delete(API_PROJECTS_URL + id)
+    //    .then((res) => setDeleteStatus(true))
+    //    .catch((err) => console.log(err));
+  };
 
   useEffect(() => {
     //  Call API
